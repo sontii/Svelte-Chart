@@ -1,16 +1,32 @@
 <script>
 	import Chart from "./Chart.svelte";
 	import { faker } from '@faker-js/faker';
-	import { Router, Route, Link } from "svelte-routing";
-	let page = document.location.hash;
+	import { Router, Route, Link, } from "svelte-navigator";
+	import { onMount, onDestroy } from 'svelte';
+	import { globalHistory } from 'svelte-routing/src/history';
 
 	// data 
 	let labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
 	let data = labels.map(() => faker.datatype.number({max:100}));
 	
+	let pathname = window.location.pathname;
+    let unsub;
+
+    onMount(() => {
+        unsub = globalHistory.listen(({ location, action }) => {
+            console.log(location, action);
+            pathname = location.pathname;
+        });
+    });
+
+    onDestroy(() => {
+        unsub();
+    });
+
+
 	function reloadPage(){
 		//location.reload();
-		console.log(page)
+		console.log(location)
 	}
 
 	function delimiter(value){
@@ -19,6 +35,7 @@
 		let delValue = caller.value.replace(/,/g, '');
 		value = NrFormat.format(delValue);
 		caller.value = value;
+		console.log(location.pathname)
 	}
 
 	function sParam(value){
