@@ -8,7 +8,6 @@ import { afterUpdate } from 'svelte';
 
 export let labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
 export let data = labels.map(() => faker.datatype.number({max:100}));
-console.log(data)
 var ctx;
 var myChart;
 
