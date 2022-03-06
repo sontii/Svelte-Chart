@@ -34,7 +34,15 @@
 <div>
 	<button on:click={reloadPage}>Reload Page</button>
 </div>
-
-	<input type="text" on:input={e => delimiter(e.target.value)}>
+	<label for="delimiter">Delimiter</label>
+	<input id="delimiter" type="text" on:input={e => delimiter(e.target.value)}><br>
+	<label for="sParam">sParam</label>
+	<input id="sParam" type="text" on:input={e => sParam(e.target.value)}>
 
 <Chart {data}/>
+
+<style>
+	label {
+		display: inline;
+	}
+</style>
