@@ -1,8 +1,7 @@
 <script>
 	import Chart from "./Chart.svelte";
-	import { faker } from '@faker-js/faker';
 	import { Router, Route, Link, } from "svelte-navigator";
-	import { onMount, onDestroy, hasContext } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { globalHistory } from 'svelte-routing/src/history';
 	import { data } from './stores.js';
 
@@ -52,6 +51,7 @@
 	<button on:click={reloadPage}>Reload Page</button>
 </div>
 	<label for="delimiter">Delimiter</label>
+	<!--  bind store data first index to input, then call delmiter -->
 	<input id="delimiter" bind:value={$data[0]} type="text" on:input={e => delimiter(e.target.value)}><br>
 	<label for="sParam">sParam</label>
 	<input id="sParam" type="text" on:input={e => sParam(e.target.value)}>
