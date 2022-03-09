@@ -2,13 +2,9 @@
 	import Chart from "./Chart.svelte";
 	import { faker } from '@faker-js/faker';
 	import { Router, Route, Link, } from "svelte-navigator";
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount, onDestroy, hasContext } from 'svelte';
 	import { globalHistory } from 'svelte-routing/src/history';
-	
-	// data 
-	let labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
-	let data = labels.map(() => faker.datatype.number({max:100}));
-	
+	import { data } from './stores.js';
 
 	//get url (path, query, hash)
 	let pathname = window.location.pathname;
@@ -56,11 +52,11 @@
 	<button on:click={reloadPage}>Reload Page</button>
 </div>
 	<label for="delimiter">Delimiter</label>
-	<input id="delimiter" bind:value={data[0]} type="text" on:input={e => delimiter(e.target.value)}><br>
+	<input id="delimiter" bind:value={$data[0]} type="text" on:input={e => delimiter(e.target.value)}><br>
 	<label for="sParam">sParam</label>
 	<input id="sParam" type="text" on:input={e => sParam(e.target.value)}>
 
-<Chart {data}/>
+<Chart />
 
 <style>
 	label {
