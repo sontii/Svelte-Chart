@@ -2,11 +2,10 @@
 
 
 <script>
-import { faker } from '@faker-js/faker';
 import { afterUpdate } from 'svelte';
+import { labels, data } from './stores.js';
 
-//export let labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
-export let data = labels.map(() => faker.datatype.number({max:100}));
+
 var ctx;
 var myChart;
 
@@ -17,10 +16,10 @@ function createChart () {
 	myChart = new Chart(ctx, {
 		type: 'line',
 		data: {
-			labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+			labels: $labels,
 			datasets: [{
 				label: '# of Votes',
-				data: data,
+				data: $data,
 				backgroundColor: [
 					'rgba(255, 99, 132, 0.2)',
 					'rgba(54, 162, 235, 0.2)',
