@@ -1,43 +1,22 @@
 <script>
 	import Chart from "./Chart.svelte";
-	import { Router, Route, Link, } from "svelte-navigator";
-	import { onMount, onDestroy } from 'svelte';
-	import { globalHistory } from 'svelte-routing/src/history';
 	import { data } from './stores.js';
-
-	//get url (path, query, hash)
-	let pathname = window.location.pathname;
-    let unsub;
-
-    onMount(() => {
-        unsub = globalHistory.listen(({ location, action }) => {
-            //console.log(location, action);
-            pathname = location.pathname;
-        });
-    });
-
-    onDestroy(() => {
-        unsub();
-    });
+	import { query } from 'svelte-pathfinder';
 
 	// just a reload
 	function reloadPage(){
 		location.reload();
 	}
 
-	// formatting input value id=delmiiter
+	//formatting input value for id=delimiter and change data 0 index value
 	function delimiter(value){
+		$data[0] = value;
 		var caller = event.target;
 		var NrFormat = new Intl.NumberFormat('en-US', {minimumFractionDigits: 0});
 		let delValue = caller.value.replace(/,/g, '');
 		value = NrFormat.format(delValue);
 		caller.value = value;
 		
-	}
-
-	// read router
-	function sParam(value){
-		console.log(location.host, location.pathname)
 	}
 
 	// windows change get url
@@ -51,10 +30,8 @@
 	<button on:click={reloadPage}>Reload Page</button>
 </div>
 	<label for="delimiter">Delimiter</label>
-	<!--  bind store data first index to input, then call delmiter -->
-	<input id="delimiter" bind:value={$data[0]} type="text" on:input={e => delimiter(e.target.value)}><br>
-	<label for="sParam">sParam</label>
-	<input id="sParam" type="text" on:input={e => sParam(e.target.value)}>
+	<!--  bind to url param rst index to input, then call delmiter -->
+	<input id="delimiter" type="text" bind:value={$query.params.q} on:input={e => delimiter(e.target.value)}><br>
 
 <Chart />
 
