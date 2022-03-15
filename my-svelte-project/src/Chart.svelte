@@ -4,11 +4,10 @@
 <script>
 import { afterUpdate } from 'svelte';
 import { labels, data } from './stores.js';
-
+import { query } from 'svelte-pathfinder';
 
 var ctx;
 var myChart;
-
 
 function createChart () {
 	ctx = document.getElementById('myChart').getContext('2d');
@@ -47,6 +46,10 @@ function createChart () {
 			}
 		}
 	});
+}
+//check getting param
+if (typeof $query.params.q !== 'undefined'){
+	$data[0] = $query.params.q;
 }
 
 afterUpdate(createChart)
