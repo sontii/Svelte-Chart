@@ -1,13 +1,19 @@
 <canvas id="myChart" width="2" height="1"></canvas>
+<canvas id="myChartBottom" width="2" height="1"></canvas>
 
 
 <script>
 import { afterUpdate } from 'svelte';
-import { labels, data } from './stores.js';
+import { labels, data, label } from './stores.js';
 import { query } from 'svelte-pathfinder';
+import _ from "lodash";
 
 var ctx;
+var ctxBotttom;
 var myChart;
+var myChartBottom;
+
+const cloneData = _.cloneDeep($data);
 
 function createChart () {
 	ctx = document.getElementById('myChart').getContext('2d');
@@ -17,7 +23,7 @@ function createChart () {
 		data: {
 			labels: $labels,
 			datasets: [{
-				label: '# of Votes',
+				label: $label,
 				data: $data,
 				backgroundColor: [
 					'rgba(255, 99, 132, 0.2)',
@@ -46,7 +52,45 @@ function createChart () {
 			}
 		}
 	});
+	//Bottom chart
+	ctx = document.getElementById('myChartBottom').getContext('2d');
+	if (myChartBottom) myChartBottom.destroy();
+	myChartBottom = new Chart(ctx, {
+		type: 'line',
+		data: {
+			labels: $labels,
+			datasets: [{
+				label: $label,
+				data: cloneData,
+				backgroundColor: [
+					'rgba(255, 99, 132, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(255, 206, 86, 0.2)',
+					'rgba(75, 192, 192, 0.2)',
+					'rgba(153, 102, 255, 0.2)',
+					'rgba(255, 159, 64, 0.2)'
+				],
+				borderColor: [
+					'rgba(255, 99, 132, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(255, 206, 86, 1)',
+					'rgba(75, 192, 192, 1)',
+					'rgba(153, 102, 255, 1)',
+					'rgba(255, 159, 64, 1)'
+				],
+				borderWidth: 1
+			}]
+		},
+		options: {
+			scales: {
+				y: {
+					beginAtZero: true
+				}
+			}
+		}
+	});
 }
+
 //check getting param
 if (typeof $query.params.q !== 'undefined'){
 	$data[0] = $query.params.q;
