@@ -6,14 +6,12 @@
 import { afterUpdate } from 'svelte';
 import { labels, data, label } from './stores.js';
 import { query } from 'svelte-pathfinder';
-import _ from "lodash";
 
 var ctx;
-var ctxBotttom;
 var myChart;
 var myChartBottom;
 
-const cloneData = _.cloneDeep($data);
+const cloneData = [...$data];
 
 function createChart () {
 	ctx = document.getElementById('myChart').getContext('2d');
